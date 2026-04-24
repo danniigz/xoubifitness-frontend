@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Crear cuenta — XoubiFitness</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#090909" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="XoubiFitness">
+  <link rel="apple-touch-icon" href="assets/img/icon-192.png" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+  <style>
+    html, body {
+      height: 100%;
+      background: #090909;
+      overflow-x: hidden;
+    }
+
+    .register-page {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      padding: env(safe-area-inset-top, 0) 0 env(safe-area-inset-bottom, 0);
+    }
+
+    /* ── HEADER ── */
+    .reg-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 52px 28px 0;
+    }
+    .reg-back {
+      width: 38px; height: 38px;
+      background: #111;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.5);
+      cursor: pointer;
+      transition: color .2s, border-color .2s;
+      text-decoration: none;
+    }
+    .reg-back:hover { color: #fff; border-color: rgba(255,255,255,0.2); }
+    .reg-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.1em;
+      color: #F5F5F5;
+    }
+    .reg-logo span { color: #0066FF; }
+    .reg-step-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ── PROGRESS STEPS ── */
+    .steps-track {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: 24px 28px 0;
+    }
+    .step-dot {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: #111;
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.3);
+      flex-shrink: 0;
+      transition: all .3s ease;
+      position: relative;
+      z-index: 1;
+    }
+    .step-dot.active {
+      background: #0066FF;
+      border-color: #0066FF;
+      color: #fff;
+      box-shadow: 0 0 0 4px rgba(0,102,255,0.2);
+    }
+    .step-dot.done {
+      background: #0066FF;
+      border-color: #0066FF;
+      color: #fff;
+    }
+    .step-line {
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.08);
+      position: relative;
+      overflow: hidden;
+    }
+    .step-line__fill {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 0%;
+      background: #0066FF;
+      transition: width .4s ease;
+    }
+
+    /* ── STEP TITLES ── */
+    .reg-title-wrap {
+      padding: 28px 28px 0;
+    }
+    .reg-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.4rem;
+      line-height: 1.0;
+      color: #F5F5F5;
+      letter-spacing: 0.03em;
+    }
+    .reg-title span { color: #0066FF; }
+    .reg-subtitle {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.4);
+      margin-top: 6px;
+    }
+
+    /* ── STEPS CONTAINER ── */
+    .steps-wrap {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+    .step-panel {
+      position: absolute;
+      inset: 0;
+      padding: 28px 28px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      opacity: 0;
+      transform: translateX(40px);
+      pointer-events: none;
+      transition: opacity .35s ease, transform .35s ease;
+      overflow-y: auto;
+    }
+    .step-panel.active {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: all;
+    }
+    .step-panel.exiting {
+      opacity: 0;
+      transform: translateX(-40px);
+    }
+
+    /* ── CAMPOS ── */
+    .field {
+      position: relative;
+      margin-bottom: 14px;
+    }
+    .field__label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 6px;
+    }
+    .field__input-wrap { position: relative; }
+    .field__icon {
+      position: absolute;
+      left: 14px; top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255,255,255,0.25);
+      pointer-events: none;
+      display: flex;
+    }
+    .field__input {
+      width: 100%;
+      background: #111111;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 14px 14px 14px 44px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      color: #F5F5F5;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      -webkit-appearance: none;
+    }
+    .field__input::placeholder { color: rgba(255,255,255,0.2); }
+    .field__input:focus {
+      border-color: #0066FF;
+      box-shadow: 0 0 0 3px rgba(0,102,255,0.15);
+    }
+    .field__input--no-icon { padding-left: 14px; }
+    .field__input--pr { padding-right: 48px; }
+    .field__toggle {
+      position: absolute;
+      right: 14px; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none;
+      cursor: pointer;
+      color: rgba(255,255,255,0.25);
+      display: flex; padding: 4px;
+      transition: color .2s;
+    }
+    .field__toggle:hover { color: rgba(255,255,255,0.6); }
+    .field__error {
+      font-size: 0.72rem;
+      color: #FF3B30;
+      margin-top: 5px;
+      display: none;
+    }
+    .field.has-error .field__input { border-color: #FF3B30; box-shadow: 0 0 0 3px rgba(255,59,48,.12); }
+    .field.has-error .field__error { display: block; }
+    .field__hint {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.25);
+      margin-top: 5px;
+    }
+
+    /* Form row */
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* Select */
+    select.field__input {
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+      padding-right: 40px;
+    }
+    .field__select-wrap { position: relative; }
+    .field__select-wrap::after {
+      content: '';
+      position: absolute;
+      right: 14px; top: 50%;
+      transform: translateY(-50%);
+      width: 0; height: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 5px solid rgba(255,255,255,0.3);
+      pointer-events: none;
+    }
+    select.field__input option { background: #111; }
+
+    /* ── SELECTOR DE OBJETIVO (cards) ── */
+    .goal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .goal-card {
+      background: #111;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: border-color .2s, background .2s, box-shadow .2s;
+      text-align: center;
+    }
+    .goal-card__icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.05);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.3);
+      transition: background .2s, color .2s;
+    }
+    .goal-card__label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.2;
+      transition: color .2s;
+    }
+    .goal-card.selected {
+      border-color: #0066FF;
+      background: rgba(0,102,255,0.1);
+      box-shadow: 0 0 0 1px rgba(0,102,255,0.3);
+    }
+    .goal-card.selected .goal-card__icon {
+      background: rgba(0,102,255,0.2);
+      color: #0066FF;
+    }
+    .goal-card.selected .goal-card__label { color: #fff; }
+
+    /* ── BOTÓN SIGUIENTE / CREAR ── */
+    .reg-footer {
+      padding: 20px 28px 48px;
+    }
+    .btn-next {
+      width: 100%;
+      padding: 16px;
+      background: #0066FF;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      letter-spacing: 0.1em;
+      color: #fff;
+      cursor: pointer;
+      transition: background .2s, box-shadow .2s, transform .1s;
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px;
+    }
+    .btn-next:hover { background: #0052cc; box-shadow: 0 4px 24px rgba(0,102,255,.4); }
+    .btn-next:active { transform: scale(0.98); }
+    .btn-next:disabled { opacity: .5; cursor: not-allowed; }
+    .btn-next__spinner {
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      display: none;
+    }
+    .btn-next.loading .btn-next__text { display: none; }
+    .btn-next.loading .btn-next__spinner { display: block; }
+
+    /* login link */
+    .reg-login-link {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.25);
+    }
+    .reg-login-link a { color: #0066FF; font-weight: 600; text-decoration: none; }
+
+    /* strength bar */
+    .pass-strength { margin-top: 8px; }
+    .pass-strength__track {
+      height: 3px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-bottom: 5px;
+    }
+    .pass-strength__fill {
+      height: 100%;
+      border-radius: 99px;
+      width: 0%;
+      transition: width .3s, background .3s;
+    }
+    .pass-strength__label {
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.3);
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="register-page">
+
+  <!-- Header -->
+  <div class="reg-header">
+    <a href="login.html" class="reg-back">
+      <i data-lucide="arrow-left" width="16" height="16"></i>
+    </a>
+    <div class="reg-logo">XOUBI<span>FITNESS</span></div>
+    <div class="reg-step-label" id="step-label">Paso 1 de 3</div>
+  </div>
+
+  <!-- Indicador de pasos -->
+  <div class="steps-track">
+    <div class="step-dot active" id="dot-1">1</div>
+    <div class="step-line"><div class="step-line__fill" id="line-1"></div></div>
+    <div class="step-dot" id="dot-2">2</div>
+    <div class="step-line"><div class="step-line__fill" id="line-2"></div></div>
+    <div class="step-dot" id="dot-3">3</div>
+  </div>
+
+  <!-- Título dinámico -->
+  <div class="reg-title-wrap">
+    <h1 class="reg-title" id="reg-title">CUÉNTANOS<br><span>QUIÉN ERES.</span></h1>
+    <p class="reg-subtitle" id="reg-subtitle">Empezamos con lo básico</p>
+  </div>
+
+  <!-- Paneles -->
+  <div class="steps-wrap">
+
+    <!-- PASO 1 — Datos personales -->
+    <div class="step-panel active" id="panel-1">
+      <div class="field" id="f-name">
+        <label class="field__label" for="name">Nombre</label>
+        <div class="field__input-wrap">
+          <span class="field__icon"><i data-lucide="user" width="16" height="16"></i></span>
+          <input type="text" id="name" class="field__input" placeholder="¿Cómo te llamas?" autocomplete="given-name"/>
+        </div>
+        <span class="field__error">Introduce tu nombre</span>
+      </div>
+
+      <div class="field" id="f-email">
+        <label class="field__label" for="email">Correo electrónico</label>
+        <div class="field__input-wrap">
+          <span class="field__icon"><i data-lucide="mail" width="16" height="16"></i></span>
+          <input type="email" id="email" class="field__input" placeholder="tu@email.com" autocomplete="email" inputmode="email"/>
+        </div>
+        <span class="field__error">Introduce un email válido</span>
+      </div>
+
+      <div class="field" id="f-birth">
+        <label class="field__label" for="birth">Fecha de nacimiento</label>
+        <div class="field__input-wrap">
+          <span class="field__icon"><i data-lucide="calendar" width="16" height="16"></i></span>
+          <input type="date" id="birth" class="field__input"/>
+        </div>
+        <span class="field__error">Introduce tu fecha de nacimiento</span>
+      </div>
+
+      <div class="form-row-2">
+        <div class="field" id="f-height">
+          <label class="field__label" for="height">Altura (cm)</label>
+          <div class="field__input-wrap">
+            <span class="field__icon"><i data-lucide="ruler" width="16" height="16"></i></span>
+            <input type="number" id="height" class="field__input" placeholder="165" min="100" max="250"/>
+          </div>
+          <span class="field__error">Introduce tu altura</span>
+        </div>
+        <div class="field" id="f-weight">
+          <label class="field__label" for="weight">Peso actual (kg)</label>
+          <div class="field__input-wrap">
+            <span class="field__icon"><i data-lucide="scale" width="16" height="16"></i></span>
+            <input type="number" id="weight" class="field__input" placeholder="62" step="0.1" min="30" max="300"/>
+          </div>
+          <span class="field__error">Introduce tu peso</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASO 2 — Objetivo -->
+    <div class="step-panel" id="panel-2">
+      <div class="goal-grid" id="goal-grid">
+        <div class="goal-card" data-goal="lose_weight">
+          <div class="goal-card__icon"><i data-lucide="trending-down" width="20" height="20"></i></div>
+          <div class="goal-card__label">Perder peso</div>
+        </div>
+        <div class="goal-card" data-goal="gain_muscle">
+          <div class="goal-card__icon"><i data-lucide="dumbbell" width="20" height="20"></i></div>
+          <div class="goal-card__label">Ganar músculo</div>
+        </div>
+        <div class="goal-card" data-goal="maintain">
+          <div class="goal-card__icon"><i data-lucide="minus" width="20" height="20"></i></div>
+          <div class="goal-card__label">Mantener peso</div>
+        </div>
+        <div class="goal-card" data-goal="endurance">
+          <div class="goal-card__icon"><i data-lucide="activity" width="20" height="20"></i></div>
+          <div class="goal-card__label">Mejorar resistencia</div>
+        </div>
+      </div>
+
+      <div class="field" id="f-goal-weight">
+        <label class="field__label" for="goal-weight">Peso meta (kg) — opcional</label>
+        <div class="field__input-wrap">
+          <span class="field__icon"><i data-lucide="target" width="16" height="16"></i></span>
+          <input type="number" id="goal-weight" class="field__input" placeholder="58" step="0.1"/>
+        </div>
+        <span class="field__hint">Deja vacío si no tienes un peso meta concreto</span>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="kcal-goal">Meta de calorías (kcal/día) — opcional</label>
+        <div class="field__input-wrap">
+          <span class="field__icon"><i data-lucide="flame" width="16" height="16"></i></span>
+          <input type="number" id="kcal-goal" class="field__input" placeholder="2200"/>
+        </div>
+        <span class="field__hint">Si no lo sabes, lo puedes ajustar luego desde el perfil</span>
+      </div>
+    </div>
+
+    <!-- PASO 3 — Contraseña -->
+    <div class="step-panel" id="panel-3">
+      <div class="field" id="f-password">
+        <label class="field__label" for="password">Contraseña</label>
+        <div class="field__input-wrap">
+          <span class="field__icon"><i data-lucide="lock" width="16" height="16"></i></span>
+          <input type="password" id="password" class="field__input field__input--pr"
+            placeholder="Mínimo 8 caracteres" autocomplete="new-password"/>
+          <button type="button" class="field__toggle" id="toggle-pass1">
+            <i data-lucide="eye" width="16" height="16" id="eye1"></i>
+          </button>
+        </div>
+        <div class="pass-strength">
+          <div class="pass-strength__track">
+            <div class="pass-strength__fill" id="strength-fill"></div>
+          </div>
+          <span class="pass-strength__label" id="strength-label"></span>
+        </div>
+        <span class="field__error">La contraseña debe tener al menos 8 caracteres</span>
+      </div>
+
+      <div class="field" id="f-password2">
+        <label class="field__label" for="password2">Confirmar contraseña</label>
+        <div class="field__input-wrap">
+          <span class="field__icon"><i data-lucide="lock" width="16" height="16"></i></span>
+          <input type="password" id="password2" class="field__input field__input--pr"
+            placeholder="Repite la contraseña" autocomplete="new-password"/>
+          <button type="button" class="field__toggle" id="toggle-pass2">
+            <i data-lucide="eye" width="16" height="16" id="eye2"></i>
+          </button>
+        </div>
+        <span class="field__error">Las contraseñas no coinciden</span>
+      </div>
+
+      <!-- Resumen antes de crear -->
+      <div style="background:#111;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:16px;margin-top:8px;" id="summary">
+        <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px;">Resumen</div>
+        <div id="summary-content" style="display:flex;flex-direction:column;gap:8px;"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer con botón -->
+  <div class="reg-footer">
+    <button class="btn-next" id="btn-next">
+      <span class="btn-next__text">SIGUIENTE</span>
+      <div class="btn-next__spinner"></div>
+    </button>
+    <div class="reg-login-link">
+      ¿Ya tienes cuenta? <a href="login.html">Iniciar sesión</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+  initRegister();
+});
+
+const STEPS = 3;
+let currentStep = 1;
+let selectedGoal = null;
+
+const titles = [
+  { title: 'CUÉNTANOS<br><span>QUIÉN ERES.</span>',     sub: 'Empezamos con lo básico' },
+  { title: '¿CUÁL ES<br><span>TU OBJETIVO?</span>',     sub: 'Elige el que más te identifique' },
+  { title: 'CASI<br><span>LISTA.</span>',                sub: 'Elige una contraseña segura' },
+];
+
+function initRegister() {
+  // Objetivo cards
+  document.querySelectorAll('.goal-card').forEach(card => {
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.goal-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      selectedGoal = card.dataset.goal;
+    });
+  });
+
+  // Ver/ocultar contraseñas
+  setupToggle('toggle-pass1', 'password', 'eye1');
+  setupToggle('toggle-pass2', 'password2', 'eye2');
+
+  // Strength meter
+  document.getElementById('password')?.addEventListener('input', updateStrength);
+
+  // Botón siguiente / crear
+  document.getElementById('btn-next').addEventListener('click', handleNext);
+}
+
+function setupToggle(btnId, inputId, iconId) {
+  const btn = document.getElementById(btnId);
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    const input = document.getElementById(inputId);
+    const icon  = document.getElementById(iconId);
+    const show  = input.type === 'text';
+    input.type  = show ? 'password' : 'text';
+    icon.setAttribute('data-lucide', show ? 'eye' : 'eye-off');
+    if (typeof lucide !== 'undefined') lucide.createIcons({ nodes: [icon] });
+  });
+}
+
+function updateStrength() {
+  const val   = document.getElementById('password').value;
+  const fill  = document.getElementById('strength-fill');
+  const label = document.getElementById('strength-label');
+  let score   = 0;
+  if (val.length >= 8)             score++;
+  if (/[A-Z]/.test(val))          score++;
+  if (/[0-9]/.test(val))          score++;
+  if (/[^A-Za-z0-9]/.test(val))  score++;
+
+  const levels = [
+    { pct: '0%',   color: 'transparent', text: '' },
+    { pct: '25%',  color: '#FF3B30',     text: 'Débil' },
+    { pct: '50%',  color: '#FF9100',     text: 'Regular' },
+    { pct: '75%',  color: '#F59E0B',     text: 'Buena' },
+    { pct: '100%', color: '#00C853',     text: 'Fuerte' },
+  ];
+  const lvl = levels[score];
+  fill.style.width      = lvl.pct;
+  fill.style.background = lvl.color;
+  label.textContent     = lvl.text;
+  label.style.color     = lvl.color;
+}
+
+function handleNext() {
+  if (!validateStep(currentStep)) return;
+
+  if (currentStep < STEPS) {
+    goToStep(currentStep + 1);
+  } else {
+    submitForm();
+  }
+}
+
+function goToStep(next) {
+  const prev = currentStep;
+  currentStep = next;
+
+  // Paneles
+  const prevPanel = document.getElementById(`panel-${prev}`);
+  const nextPanel = document.getElementById(`panel-${next}`);
+  prevPanel.classList.add('exiting');
+  setTimeout(() => {
+    prevPanel.classList.remove('active', 'exiting');
+    nextPanel.classList.add('active');
+  }, 350);
+
+  // Dots y líneas
+  const prevDot = document.getElementById(`dot-${prev}`);
+  prevDot.classList.remove('active');
+  prevDot.classList.add('done');
+  prevDot.innerHTML = '<i data-lucide="check" width="12" height="12"></i>';
+  if (typeof lucide !== 'undefined') lucide.createIcons({ nodes: [prevDot] });
+
+  document.getElementById(`dot-${next}`).classList.add('active');
+  if (prev < STEPS) document.getElementById(`line-${prev}`).style.width = '100%';
+
+  // Título
+  const t = titles[next - 1];
+  document.getElementById('reg-title').innerHTML    = t.title;
+  document.getElementById('reg-subtitle').textContent = t.sub;
+  document.getElementById('step-label').textContent = `Paso ${next} de ${STEPS}`;
+
+  // Botón
+  document.getElementById('btn-next').querySelector('.btn-next__text').textContent =
+    next === STEPS ? 'CREAR CUENTA' : 'SIGUIENTE';
+
+  // Resumen en paso 3
+  if (next === 3) buildSummary();
+}
+
+function buildSummary() {
+  const goalLabels = {
+    lose_weight: 'Perder peso', gain_muscle: 'Ganar músculo',
+    maintain: 'Mantener peso', endurance: 'Mejorar resistencia'
+  };
+  const rows = [
+    { icon: 'user',        label: 'Nombre',   val: document.getElementById('name').value },
+    { icon: 'mail',        label: 'Email',    val: document.getElementById('email').value },
+    { icon: 'ruler',       label: 'Altura',   val: document.getElementById('height').value + ' cm' },
+    { icon: 'scale',       label: 'Peso',     val: document.getElementById('weight').value + ' kg' },
+    { icon: 'target',      label: 'Objetivo', val: goalLabels[selectedGoal] || '—' },
+  ];
+  const container = document.getElementById('summary-content');
+  container.innerHTML = rows.map(r => `
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:28px;height:28px;background:rgba(0,102,255,.12);border-radius:7px;display:flex;align-items:center;justify-content:center;color:#0066FF;flex-shrink:0;">
+        <i data-lucide="${r.icon}" width="13" height="13"></i>
+      </div>
+      <div>
+        <div style="font-size:.68rem;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.06em;">${r.label}</div>
+        <div style="font-size:.85rem;font-weight:600;color:#F5F5F5;">${r.val}</div>
+      </div>
+    </div>
+  `).join('');
+  if (typeof lucide !== 'undefined') lucide.createIcons({ nodes: [container] });
+}
+
+function validateStep(step) {
+  clearErrors();
+  let ok = true;
+
+  if (step === 1) {
+    if (!v('name'))   { err('f-name', 'Introduce tu nombre'); ok = false; }
+    const email = document.getElementById('email').value.trim();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      err('f-email', 'Introduce un email válido'); ok = false;
+    }
+    if (!v('birth'))   { err('f-birth', 'Introduce tu fecha de nacimiento'); ok = false; }
+    if (!v('height'))  { err('f-height', 'Introduce tu altura'); ok = false; }
+    if (!v('weight'))  { err('f-weight', 'Introduce tu peso'); ok = false; }
+  }
+
+  if (step === 2) {
+    if (!selectedGoal) {
+      // Marca todas las cards levemente
+      document.querySelectorAll('.goal-card').forEach(c => {
+        c.style.borderColor = '#FF3B30';
+        setTimeout(() => c.style.borderColor = '', 1000);
+      });
+      ok = false;
+    }
+  }
+
+  if (step === 3) {
+    const pass  = document.getElementById('password').value;
+    const pass2 = document.getElementById('password2').value;
+    if (pass.length < 8)  { err('f-password',  'La contraseña debe tener al menos 8 caracteres'); ok = false; }
+    if (pass !== pass2)   { err('f-password2', 'Las contraseñas no coinciden'); ok = false; }
+  }
+
+  return ok;
+}
+
+function v(id)  { return document.getElementById(id)?.value.trim(); }
+function err(fieldId, msg) {
+  const field = document.getElementById(fieldId);
+  const errEl = field?.querySelector('.field__error');
+  if (field) field.classList.add('has-error');
+  if (errEl && msg) errEl.textContent = msg;
+}
+function clearErrors() {
+  document.querySelectorAll('.field.has-error').forEach(f => f.classList.remove('has-error'));
+}
+
+async function submitForm() {
+  const btn = document.getElementById('btn-next');
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  const API_URL = 'https://fitness-backend-production-724a.up.railway.app/api';
+
+  const payload = {
+    name:        document.getElementById('name').value.trim(),
+    email:       document.getElementById('email').value.trim(),
+    password:    document.getElementById('password').value,
+    password_confirmation: document.getElementById('password2').value,
+    birth_date:  document.getElementById('birth').value,
+    height_cm:   parseInt(document.getElementById('height').value),
+    goal:        selectedGoal,
+    weight_goal: parseFloat(document.getElementById('goal-weight').value) || null,
+    kcal_goal:   parseInt(document.getElementById('kcal-goal').value) || null,
+  };
+
+  try {
+    const res = await fetch(`${API_URL}/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      // Laravel devuelve errores de validación en data.errors
+      const msg = data.message || 'Error al crear la cuenta';
+      alert(msg);
+      btn.classList.remove('loading');
+      btn.disabled = false;
+      return;
+    }
+
+    localStorage.setItem('xf_token', data.token);
+    window.location.href = 'index.html';
+
+  } catch (err) {
+    alert('No se pudo conectar. Comprueba tu conexión.');
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+}
+</script>
+
+</body>
+</html>

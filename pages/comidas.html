@@ -1,10 +1,282 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Comidas — XoubiFitness</title>
+  <link rel="manifest" href="../manifest.json" />
+  <meta name="theme-color" content="#090909" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+  <script src="../assets/js/app.js" defer></script>
 </head>
 <body>
+
+  <!-- TOP NAV -->
+  <nav class="top-nav">
+    <span class="top-nav__logo">XOUBI<span>FITNESS</span></span>
+    <div class="top-nav__actions">
+      <button class="theme-toggle" aria-label="Cambiar tema">
+        <i data-lucide="sun" width="18" height="18"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="page-wrap">
+    <div class="container">
+
+      <!-- Cabecera -->
+      <div class="flex items-center justify-between mb-20 stagger">
+        <div>
+          <p class="text-xs text-muted font-semibold" style="letter-spacing:.08em;text-transform:uppercase;" data-today></p>
+          <h1 class="font-display" style="font-size:2rem;line-height:1.1;">COMIDAS</h1>
+        </div>
+        <button class="btn btn--primary btn--sm" data-sheet-open="sheet-add-food">
+          <i data-lucide="plus" width="15" height="15"></i>
+          Añadir
+        </button>
+      </div>
+
+      <!-- Resumen calorías -->
+      <div class="card mb-12 stagger">
+        <div class="flex items-center gap-16">
+          <!-- Ring kcal -->
+          <div class="ring-wrap" style="flex-shrink:0;">
+            <svg width="90" height="90" viewBox="0 0 100 100">
+              <circle class="ring-track" cx="50" cy="50" r="40" stroke-width="9"/>
+              <circle class="ring-fill" cx="50" cy="50" r="40" stroke-width="9"
+                stroke-dasharray="251.3" stroke-dashoffset="75.4"
+                style="transform-origin:center;transform:rotate(-90deg);"/>
+            </svg>
+            <div class="ring-wrap__inner" style="text-align:center;">
+              <span class="font-display" style="font-size:1.4rem;line-height:1;">1840</span>
+              <span class="text-xs text-muted">kcal</span>
+            </div>
+          </div>
+          <!-- Números -->
+          <div style="flex:1;">
+            <div class="flex justify-between mb-4">
+              <span class="text-xs text-muted">Consumidas</span>
+              <span class="text-sm font-semibold">1 840 kcal</span>
+            </div>
+            <div class="flex justify-between mb-12">
+              <span class="text-xs text-muted">Meta</span>
+              <span class="text-sm font-semibold">2 200 kcal</span>
+            </div>
+            <div class="flex justify-between" style="color:var(--accent);">
+              <span class="text-xs font-semibold">Restantes</span>
+              <span class="text-sm font-bold">360 kcal</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Macros -->
+        <div class="macro-row">
+          <span class="macro-label">Proteína</span>
+          <div class="macro-bar-track">
+            <div class="macro-bar-fill macro-bar-fill--protein" style="width:72%;"></div>
+          </div>
+          <span class="macro-val">108 / 150 g</span>
+        </div>
+        <div class="macro-row">
+          <span class="macro-label">Carbos</span>
+          <div class="macro-bar-track">
+            <div class="macro-bar-fill macro-bar-fill--carbs" style="width:60%;"></div>
+          </div>
+          <span class="macro-val">180 / 300 g</span>
+        </div>
+        <div class="macro-row" style="margin-bottom:0;">
+          <span class="macro-label">Grasa</span>
+          <div class="macro-bar-track">
+            <div class="macro-bar-fill macro-bar-fill--fat" style="width:45%;"></div>
+          </div>
+          <span class="macro-val">54 / 120 g</span>
+        </div>
+      </div>
+
+      <!-- Comidas del día -->
+
+      <!-- Desayuno -->
+      <div class="card mb-10 stagger">
+        <div class="meal-type-header">
+          <div class="meal-type-dot" style="background:#F59E0B;"></div>
+          <span class="meal-type-name">Desayuno</span>
+          <span class="meal-type-kcal">420 kcal</span>
+          <button class="btn--icon" style="width:28px;height:28px;margin-left:8px;" data-sheet-open="sheet-add-food">
+            <i data-lucide="plus" width="13" height="13"></i>
+          </button>
+        </div>
+        <div class="meal-food-row">
+          <span class="meal-food-row__name">Avena con leche</span>
+          <span class="meal-food-row__qty">100 g</span>
+          <span class="meal-food-row__kcal">350 kcal</span>
+        </div>
+        <div class="meal-food-row" style="border:none;">
+          <span class="meal-food-row__name">Plátano</span>
+          <span class="meal-food-row__qty">1 ud</span>
+          <span class="meal-food-row__kcal">90 kcal</span>
+        </div>
+      </div>
+
+      <!-- Comida -->
+      <div class="card mb-10 stagger">
+        <div class="meal-type-header">
+          <div class="meal-type-dot" style="background:#0066FF;"></div>
+          <span class="meal-type-name">Comida</span>
+          <span class="meal-type-kcal">680 kcal</span>
+          <button class="btn--icon" style="width:28px;height:28px;margin-left:8px;" data-sheet-open="sheet-add-food">
+            <i data-lucide="plus" width="13" height="13"></i>
+          </button>
+        </div>
+        <div class="meal-food-row">
+          <span class="meal-food-row__name">Pechuga de pollo</span>
+          <span class="meal-food-row__qty">180 g</span>
+          <span class="meal-food-row__kcal">270 kcal</span>
+        </div>
+        <div class="meal-food-row">
+          <span class="meal-food-row__name">Arroz blanco</span>
+          <span class="meal-food-row__qty">150 g cocido</span>
+          <span class="meal-food-row__kcal">200 kcal</span>
+        </div>
+        <div class="meal-food-row" style="border:none;">
+          <span class="meal-food-row__name">Ensalada mixta</span>
+          <span class="meal-food-row__qty">1 ración</span>
+          <span class="meal-food-row__kcal">60 kcal</span>
+        </div>
+      </div>
+
+      <!-- Merienda -->
+      <div class="card mb-10 stagger">
+        <div class="meal-type-header">
+          <div class="meal-type-dot" style="background:#00C853;"></div>
+          <span class="meal-type-name">Merienda</span>
+          <span class="meal-type-kcal">280 kcal</span>
+          <button class="btn--icon" style="width:28px;height:28px;margin-left:8px;" data-sheet-open="sheet-add-food">
+            <i data-lucide="plus" width="13" height="13"></i>
+          </button>
+        </div>
+        <div class="meal-food-row">
+          <span class="meal-food-row__name">Yogur griego</span>
+          <span class="meal-food-row__qty">200 g</span>
+          <span class="meal-food-row__kcal">130 kcal</span>
+        </div>
+        <div class="meal-food-row" style="border:none;">
+          <span class="meal-food-row__name">Nueces</span>
+          <span class="meal-food-row__qty">30 g</span>
+          <span class="meal-food-row__kcal">150 kcal</span>
+        </div>
+      </div>
+
+      <!-- Cena -->
+      <div class="card mb-24 stagger">
+        <div class="meal-type-header">
+          <div class="meal-type-dot" style="background:#EF4444;"></div>
+          <span class="meal-type-name">Cena</span>
+          <span class="meal-type-kcal">460 kcal</span>
+          <button class="btn--icon" style="width:28px;height:28px;margin-left:8px;" data-sheet-open="sheet-add-food">
+            <i data-lucide="plus" width="13" height="13"></i>
+          </button>
+        </div>
+        <div class="meal-food-row">
+          <span class="meal-food-row__name">Salmón a la plancha</span>
+          <span class="meal-food-row__qty">150 g</span>
+          <span class="meal-food-row__kcal">250 kcal</span>
+        </div>
+        <div class="meal-food-row" style="border:none;">
+          <span class="meal-food-row__name">Verduras al vapor</span>
+          <span class="meal-food-row__qty">200 g</span>
+          <span class="meal-food-row__kcal">80 kcal</span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FAB -->
+  <button class="fab" data-sheet-open="sheet-add-food" aria-label="Añadir alimento">
+    <i data-lucide="plus" width="22" height="22"></i>
+  </button>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <a href="../index.html" class="nav-item">
+      <i data-lucide="layout-dashboard" width="22" height="22"></i>
+      <span>Inicio</span>
+    </a>
+    <a href="entreno.html" class="nav-item">
+      <i data-lucide="dumbbell" width="22" height="22"></i>
+      <span>Entreno</span>
+    </a>
+    <a href="comidas.html" class="nav-item active">
+      <i data-lucide="utensils" width="22" height="22"></i>
+      <span>Comidas</span>
+    </a>
+    <a href="progreso.html" class="nav-item">
+      <i data-lucide="trending-up" width="22" height="22"></i>
+      <span>Progreso</span>
+    </a>
+    <a href="perfil.html" class="nav-item">
+      <i data-lucide="user" width="22" height="22"></i>
+      <span>Perfil</span>
+    </a>
+  </nav>
+
+  <!-- SHEET — añadir alimento -->
+  <div class="overlay" id="sheet-add-food">
+    <div class="sheet">
+      <div class="sheet__handle"></div>
+      <div class="sheet__title">Añadir alimento</div>
+
+      <div class="form-group">
+        <label class="form-label">Tipo de comida</label>
+        <select class="form-input w-full">
+          <option value="breakfast">Desayuno</option>
+          <option value="lunch">Comida</option>
+          <option value="snack">Merienda</option>
+          <option value="dinner">Cena</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Alimento</label>
+        <input type="text" class="form-input" placeholder="Ej. Pechuga de pollo" id="food-name"/>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Cantidad (g)</label>
+          <input type="number" class="form-input" placeholder="100" id="food-qty"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Calorías</label>
+          <input type="number" class="form-input" placeholder="kcal" id="food-kcal"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Proteína (g)</label>
+          <input type="number" class="form-input" placeholder="0" id="food-protein"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Carbos (g)</label>
+          <input type="number" class="form-input" placeholder="0" id="food-carbs"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Grasa (g)</label>
+        <input type="number" class="form-input" placeholder="0" id="food-fat" style="max-width:50%;"/>
+      </div>
+
+      <div class="flex gap-8 mt-8">
+        <button class="btn btn--ghost btn--full" data-sheet-close>Cancelar</button>
+        <button class="btn btn--primary btn--full">
+          <i data-lucide="plus" width="15" height="15"></i>
+          Añadir
+        </button>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>

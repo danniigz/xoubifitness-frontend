@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>XoubiFitness</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#090909" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="XoubiFitness">
+  <link rel="apple-touch-icon" href="assets/img/icon-192.png" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      background: #090909;
+    }
+
+    /* ── SPLASH WRAP ── */
+    .splash {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      z-index: 999;
+    }
+
+    /* ── FOTO DE FONDO ── */
+    .splash__photo {
+      position: absolute;
+      inset: 0;
+      background-image: url('REEMPLAZA_CON_TU_FOTO.jpg');
+      /* 
+        INSTRUCCIONES:
+        Sustituye 'REEMPLAZA_CON_TU_FOTO.jpg' por la ruta de vuestra foto.
+        Ejemplo con foto local:  url('assets/img/splash-photo.jpg')
+        La foto debe ser vertical (formato retrato), mínimo 1080×1920px.
+      */
+      background-size: cover;
+      background-position: center top;
+      background-repeat: no-repeat;
+      animation: photoZoom 3.2s ease forwards;
+    }
+
+    /* Gradiente encima de la foto — oscurece arriba y abajo */
+    .splash__overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(9,9,9,0.55) 0%,
+          rgba(9,9,9,0.0) 35%,
+          rgba(9,9,9,0.0) 50%,
+          rgba(9,9,9,0.75) 80%,
+          rgba(9,9,9,1.00) 100%
+        );
+    }
+
+    /* ── LOGO (arriba) ── */
+    .splash__logo {
+      position: absolute;
+      top: 52px;
+      left: 0; right: 0;
+      text-align: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.12em;
+      color: #ffffff;
+      opacity: 0;
+      animation: fadeInDown 0.7s 0.3s ease forwards;
+    }
+    .splash__logo span { color: #0066FF; }
+
+    /* ── CONTENIDO (abajo) ── */
+    .splash__content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 0 28px 56px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .splash__phrase {
+      opacity: 0;
+      animation: fadeInUp 0.7s 0.6s ease forwards;
+    }
+    .splash__phrase-main {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem;
+      line-height: 1.0;
+      color: #ffffff;
+      letter-spacing: 0.04em;
+    }
+    .splash__phrase-main span { color: #0066FF; }
+    .splash__phrase-sub {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.6);
+      margin-top: 8px;
+      letter-spacing: 0.01em;
+    }
+
+    /* Barra de progreso tipo Nike */
+    .splash__bar-wrap {
+      opacity: 0;
+      animation: fadeInUp 0.7s 0.9s ease forwards;
+    }
+    .splash__bar-track {
+      width: 100%;
+      height: 2px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .splash__bar-fill {
+      height: 100%;
+      width: 0%;
+      background: #0066FF;
+      border-radius: 99px;
+      animation: barLoad 2.4s 0.8s cubic-bezier(0.4,0,0.2,1) forwards;
+    }
+
+    /* ── FADE OUT al terminar ── */
+    .splash.exiting {
+      animation: splashExit 0.5s ease forwards;
+    }
+
+    /* ── KEYFRAMES ── */
+    @keyframes photoZoom {
+      from { transform: scale(1.06); }
+      to   { transform: scale(1.0); }
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes barLoad {
+      from { width: 0%; }
+      to   { width: 100%; }
+    }
+    @keyframes splashExit {
+      from { opacity: 1; }
+      to   { opacity: 0; transform: scale(1.03); }
+    }
+
+    /* Import fonts (mismas que la app) */
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500&display=swap');
+  </style>
+</head>
+<body>
+
+  <div class="splash" id="splash">
+    <!-- Foto de fondo -->
+    <div class="splash__photo"></div>
+    <!-- Gradiente -->
+    <div class="splash__overlay"></div>
+
+    <!-- Logo arriba -->
+    <div class="splash__logo">XOUBI<span>FITNESS</span></div>
+
+    <!-- Frase + barra abajo -->
+    <div class="splash__content">
+      <div class="splash__phrase">
+        <div class="splash__phrase-main">
+          EL CAMBIO<br>EMPIEZA<br><span>HOY.</span>
+        </div>
+        <p class="splash__phrase-sub">Tu cuerpo puede. Tu mente decide.</p>
+      </div>
+      <div class="splash__bar-wrap">
+        <div class="splash__bar-track">
+          <div class="splash__bar-fill"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Redirige a login.html cuando termina la splash (3.4s total)
+    window.addEventListener('load', () => {
+      const DURATION = 3400; // ms — ajusta si quieres más o menos tiempo
+      const splash   = document.getElementById('splash');
+
+      setTimeout(() => {
+        splash.classList.add('exiting');
+        setTimeout(() => {
+          window.location.href = 'register.html';
+        }, 480); // coincide con la duración de splashExit
+      }, DURATION);
+    });
+  </script>
+
+</body>
+</html>
