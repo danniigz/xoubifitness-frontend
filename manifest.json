@@ -2,7 +2,7 @@
   "name": "XoubiFitness",
   "short_name": "XoubiFitness",
   "description": "Tu app personal de fitness y nutricion",
-  "start_url": "/splash.html",
+  "start_url": "/xoubifitness-frontend/splash.html",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#090909",

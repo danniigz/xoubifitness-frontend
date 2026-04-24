@@ -719,3 +719,7 @@ img { display: block; max-width: 100%; }
   .stat-card__value { font-size: 2rem; }
   .drop { width: 30px; height: 30px; }
 }
+
+input, textarea, select {
+  font-size: 16px !important;
+}
