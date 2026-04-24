@@ -177,9 +177,9 @@
     <div class="splash__content">
       <div class="splash__phrase">
         <div class="splash__phrase-main">
-          EL CAMBIO<br>EMPIEZA<br><span>HOY.</span>
+          NUNCA PIERDE<br>EL QUE<br><span>LO INTENTA.</span>
         </div>
-        <p class="splash__phrase-sub">Tu cuerpo puede. Tu mente decide.</p>
+        <p class="splash__phrase-sub">Falla, levántate y vuelve a intentarlo.</p>
       </div>
       <div class="splash__bar-wrap">
         <div class="splash__bar-track">
@@ -198,8 +198,9 @@
       setTimeout(() => {
         splash.classList.add('exiting');
         setTimeout(() => {
-          window.location.href = 'register.html';
-        }, 480); // coincide con la duración de splashExit
+          const token = localStorage.getItem('xf_token');
+          window.location.href = token ? 'index.html' : 'login.html';
+        }, 480);
       }, DURATION);
     });
   </script>

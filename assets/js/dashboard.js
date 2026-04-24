@@ -55,7 +55,7 @@ async function loadDashboard() {
 
 /* ── SALUDO ─────────────────────────────────────────────────── */
 function renderGreeting(user) {
-  const el = document.querySelector('.font-display span[style]');
+  const el = document.getElementById('greeting-name');
   if (el) el.textContent = (user.name || 'Tú').toUpperCase();
 }
 

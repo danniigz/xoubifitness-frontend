@@ -36,15 +36,15 @@
       <div class="grid-3 mb-16 stagger">
         <div class="stat-card" style="padding:14px;">
           <div class="stat-card__label">Inicio</div>
-          <div class="stat-card__value" style="font-size:1.8rem;">68<span class="unit" style="font-size:.8rem;">kg</span></div>
+          <div class="stat-card__value" style="font-size:1.8rem;">-<span class="unit" style="font-size:.8rem;">kg</span></div>
         </div>
         <div class="stat-card" style="padding:14px;">
           <div class="stat-card__label">Actual</div>
-          <div class="stat-card__value" style="font-size:1.8rem;">62.4<span class="unit" style="font-size:.8rem;">kg</span></div>
+          <div class="stat-card__value" style="font-size:1.8rem;">-<span class="unit" style="font-size:.8rem;">kg</span></div>
         </div>
         <div class="stat-card" style="padding:14px;">
           <div class="stat-card__label">Perdido</div>
-          <div class="stat-card__value" style="font-size:1.8rem;color:var(--success);">-5.6<span class="unit" style="font-size:.8rem;">kg</span></div>
+          <div class="stat-card__value" style="font-size:1.8rem;color:var(--success);">-<span class="unit" style="font-size:.8rem;">kg</span></div>
         </div>
       </div>
 
@@ -78,11 +78,11 @@
         </div>
         <div class="flex items-center gap-16">
           <div>
-            <span class="font-display" style="font-size:2.8rem;line-height:1;color:var(--success);">22.4</span>
+            <span class="font-display" style="font-size:2.8rem;line-height:1;color:var(--success);">—</span>
             <p class="text-xs text-muted mt-4">kg/m² · Rango normal: 18.5 – 24.9</p>
           </div>
           <div style="flex:1;">
-            <div class="progress-bar" style="height:10px;margin-bottom:6px;">
+            <div class="progress-bar__fill progress-bar__fill--success" style="width:0%;"></div>
               <!-- Escala IMC: 15-35. Normal empieza en 18.5 (pos ~17.5%) y 22.4 está al ~36% -->
               <div class="progress-bar__fill progress-bar__fill--success" style="width:36%;"></div>
             </div>
@@ -101,49 +101,7 @@
         <div class="section-header">
           <span class="section-title">Historial</span>
         </div>
-        <div id="weight-history">
-          <div class="exercise-item">
-            <div class="exercise-item__icon" style="background:var(--accent-dim);">
-              <i data-lucide="scale" width="16" height="16"></i>
-            </div>
-            <div class="exercise-item__info">
-              <div class="exercise-item__name">62.4 kg</div>
-              <div class="exercise-item__detail">Hoy</div>
-            </div>
-            <span class="badge badge--success">-0.1</span>
-          </div>
-          <div class="exercise-item">
-            <div class="exercise-item__icon" style="background:var(--accent-dim);">
-              <i data-lucide="scale" width="16" height="16"></i>
-            </div>
-            <div class="exercise-item__info">
-              <div class="exercise-item__name">62.5 kg</div>
-              <div class="exercise-item__detail">Ayer</div>
-            </div>
-            <span class="badge badge--success">-0.3</span>
-          </div>
-          <div class="exercise-item">
-            <div class="exercise-item__icon" style="background:var(--accent-dim);">
-              <i data-lucide="scale" width="16" height="16"></i>
-            </div>
-            <div class="exercise-item__info">
-              <div class="exercise-item__name">62.8 kg</div>
-              <div class="exercise-item__detail">Hace 2 días</div>
-            </div>
-            <span class="badge badge--neutral">–</span>
-          </div>
-          <div class="exercise-item" style="border:none;">
-            <div class="exercise-item__icon" style="background:var(--accent-dim);">
-              <i data-lucide="scale" width="16" height="16"></i>
-            </div>
-            <div class="exercise-item__info">
-              <div class="exercise-item__name">62.9 kg</div>
-              <div class="exercise-item__detail">Hace 3 días</div>
-            </div>
-            <span class="badge badge--warning">+0.2</span>
-          </div>
-        </div>
-      </div>
+        <div id="weight-history"></div>
 
     </div>
   </main>
