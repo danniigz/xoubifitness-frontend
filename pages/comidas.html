@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="../assets/css/style.css" />
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
   <script src="../assets/js/app.js" defer></script>
+  <script src="../assets/js/comidas.js" defer></script>
 </head>
 <body>
 
@@ -96,101 +97,7 @@
           <span class="macro-val">54 / 120 g</span>
         </div>
       </div>
-
-      <!-- Comidas del día -->
-
-      <!-- Desayuno -->
-      <div class="card mb-10 stagger">
-        <div class="meal-type-header">
-          <div class="meal-type-dot" style="background:#F59E0B;"></div>
-          <span class="meal-type-name">Desayuno</span>
-          <span class="meal-type-kcal">420 kcal</span>
-          <button class="btn--icon" style="width:28px;height:28px;margin-left:8px;" data-sheet-open="sheet-add-food">
-            <i data-lucide="plus" width="13" height="13"></i>
-          </button>
-        </div>
-        <div class="meal-food-row">
-          <span class="meal-food-row__name">Avena con leche</span>
-          <span class="meal-food-row__qty">100 g</span>
-          <span class="meal-food-row__kcal">350 kcal</span>
-        </div>
-        <div class="meal-food-row" style="border:none;">
-          <span class="meal-food-row__name">Plátano</span>
-          <span class="meal-food-row__qty">1 ud</span>
-          <span class="meal-food-row__kcal">90 kcal</span>
-        </div>
-      </div>
-
-      <!-- Comida -->
-      <div class="card mb-10 stagger">
-        <div class="meal-type-header">
-          <div class="meal-type-dot" style="background:#0066FF;"></div>
-          <span class="meal-type-name">Comida</span>
-          <span class="meal-type-kcal">680 kcal</span>
-          <button class="btn--icon" style="width:28px;height:28px;margin-left:8px;" data-sheet-open="sheet-add-food">
-            <i data-lucide="plus" width="13" height="13"></i>
-          </button>
-        </div>
-        <div class="meal-food-row">
-          <span class="meal-food-row__name">Pechuga de pollo</span>
-          <span class="meal-food-row__qty">180 g</span>
-          <span class="meal-food-row__kcal">270 kcal</span>
-        </div>
-        <div class="meal-food-row">
-          <span class="meal-food-row__name">Arroz blanco</span>
-          <span class="meal-food-row__qty">150 g cocido</span>
-          <span class="meal-food-row__kcal">200 kcal</span>
-        </div>
-        <div class="meal-food-row" style="border:none;">
-          <span class="meal-food-row__name">Ensalada mixta</span>
-          <span class="meal-food-row__qty">1 ración</span>
-          <span class="meal-food-row__kcal">60 kcal</span>
-        </div>
-      </div>
-
-      <!-- Merienda -->
-      <div class="card mb-10 stagger">
-        <div class="meal-type-header">
-          <div class="meal-type-dot" style="background:#00C853;"></div>
-          <span class="meal-type-name">Merienda</span>
-          <span class="meal-type-kcal">280 kcal</span>
-          <button class="btn--icon" style="width:28px;height:28px;margin-left:8px;" data-sheet-open="sheet-add-food">
-            <i data-lucide="plus" width="13" height="13"></i>
-          </button>
-        </div>
-        <div class="meal-food-row">
-          <span class="meal-food-row__name">Yogur griego</span>
-          <span class="meal-food-row__qty">200 g</span>
-          <span class="meal-food-row__kcal">130 kcal</span>
-        </div>
-        <div class="meal-food-row" style="border:none;">
-          <span class="meal-food-row__name">Nueces</span>
-          <span class="meal-food-row__qty">30 g</span>
-          <span class="meal-food-row__kcal">150 kcal</span>
-        </div>
-      </div>
-
-      <!-- Cena -->
-      <div class="card mb-24 stagger">
-        <div class="meal-type-header">
-          <div class="meal-type-dot" style="background:#EF4444;"></div>
-          <span class="meal-type-name">Cena</span>
-          <span class="meal-type-kcal">460 kcal</span>
-          <button class="btn--icon" style="width:28px;height:28px;margin-left:8px;" data-sheet-open="sheet-add-food">
-            <i data-lucide="plus" width="13" height="13"></i>
-          </button>
-        </div>
-        <div class="meal-food-row">
-          <span class="meal-food-row__name">Salmón a la plancha</span>
-          <span class="meal-food-row__qty">150 g</span>
-          <span class="meal-food-row__kcal">250 kcal</span>
-        </div>
-        <div class="meal-food-row" style="border:none;">
-          <span class="meal-food-row__name">Verduras al vapor</span>
-          <span class="meal-food-row__qty">200 g</span>
-          <span class="meal-food-row__kcal">80 kcal</span>
-        </div>
-      </div>
+      <div id="meals-anchor"></div>
 
     </div>
   </main>
