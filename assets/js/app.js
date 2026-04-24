@@ -201,6 +201,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Lucide icons
   if (typeof lucide !== 'undefined') lucide.createIcons();
 
+  const publicPages = ['login.html', 'register.html'];
+  const currentPage = location.pathname.split('/').pop() || 'index.html';
+  const token = localStorage.getItem('xf_token');
+  if (!token && !publicPages.includes(currentPage)) {
+    window.location.href = 'login.html';
+  }
   Theme.init();
   Sheet.init();
   Water.init();
