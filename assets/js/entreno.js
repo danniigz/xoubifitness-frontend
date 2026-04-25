@@ -192,7 +192,7 @@ async function saveWorkout() {
   const payload = {
     name,
     date:               document.getElementById('new-workout-date')?.value,
-    duration_minutes:   parseInt(document.getElementById('new-workout-dur')?.value) || null,
+    duration_min: parseInt(document.getElementById('new-workout-dur')?.value) || null,
     exercises,
   };
 
