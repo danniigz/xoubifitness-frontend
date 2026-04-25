@@ -94,7 +94,7 @@ function renderStats(user, weightLogs, workouts) {
     // Peso meta
     const weightGoal = user.weight_goal ? `${user.weight_goal}` : '—';
 
-    const cards = document.querySelectorAll('.grid-3:first-of-type .stat-card');
+    const cards = document.querySelectorAll('#stats-personales .stat-card');
     if (cards[0]) cards[0].querySelector('.stat-card__value').innerHTML =
         `${user.height_cm || '—'}<span class="unit" style="font-size:.8rem;">cm</span>`;
     if (cards[1]) cards[1].querySelector('.stat-card__value').innerHTML =
@@ -120,7 +120,7 @@ function renderStats(user, weightLogs, workouts) {
         } else break;
     }
 
-    const achievementCards = document.querySelectorAll('.grid-3:last-of-type .stat-card');
+    const achievementCards = document.querySelectorAll('#stats-logros .stat-card');
     if (achievementCards[0]) achievementCards[0].querySelector('.stat-card__value').innerHTML =
         `${streak}<span class="unit" style="font-size:.7rem;">días</span>`;
     if (achievementCards[1]) achievementCards[1].querySelector('.stat-card__value').textContent =
@@ -187,7 +187,7 @@ async function saveProfile() {
     if (btn) btn.disabled = true;
 
     const data = await apiFetch('/user', {
-        method: 'PUT',
+        method: 'PATCH',
         body: JSON.stringify(payload)
     });
 
