@@ -54,7 +54,7 @@ function renderStats(workouts) {
   weekStart.setHours(0, 0, 0, 0);
 
   const thisWeek = workouts.filter(w => new Date(w.date || w.created_at) >= weekStart);
-  const totalMin = thisWeek.reduce((acc, w) => acc + (parseInt(w.duration_minutes) || 0), 0);
+  const totalMin = thisWeek.reduce((acc, w) => acc + (parseInt(w.duration_min) || 0), 0);
 
   // Racha — días consecutivos con entreno
   const dates = [...new Set(workouts.map(w => (w.date || w.created_at || '').slice(0, 10)))].sort().reverse();
@@ -97,7 +97,7 @@ function renderList(workouts) {
   container.innerHTML = recent.map((w, i) => {
     const date     = new Date(w.date || w.created_at);
     const dateStr  = relativeDate(date);
-    const dur      = w.duration_minutes ? `· ${w.duration_minutes} min` : '';
+    const dur = w.duration_min ? `· ${w.duration_min} min` : '';
     const exercises = (w.exercises || []);
     const isFirst  = i === 0;
 
@@ -105,7 +105,7 @@ function renderList(workouts) {
       <div class="exercise-item"${j === exercises.length - 1 ? ' style="border:none;"' : ''}>
         <div class="exercise-item__icon"><i data-lucide="dumbbell" width="16" height="16"></i></div>
         <div class="exercise-item__info">
-          <div class="exercise-item__name">${ex.name || ex.exercise_name || 'Ejercicio'}</div>
+          <div class="exercise-item__name">${ex.exercise_name || ex.name || 'Ejercicio'}</div>
           <div class="exercise-item__detail">${ex.sets ?? '—'} × ${ex.reps ?? '—'}${ex.weight_kg ? ` @ ${ex.weight_kg} kg` : ''}</div>
         </div>
       </div>
