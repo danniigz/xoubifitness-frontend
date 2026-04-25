@@ -339,7 +339,7 @@ img { display: block; max-width: 100%; }
 /* ── FAB ─────────────────────────────────────────────────── */
 .fab {
   position: fixed;
-  bottom: calc(var(--nav-h) + 20px);
+  bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + 20px);
   right: 20px;
   width: 54px; height: 54px;
   border-radius: 50%;
