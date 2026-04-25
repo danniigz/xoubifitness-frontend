@@ -132,6 +132,8 @@ function renderGallery(photos) {
                 item.style.backgroundImage = `url(${photoUrl})`;
                 item.style.backgroundSize = 'cover';
                 item.style.backgroundPosition = 'center';
+                item.style.cursor = 'pointer';
+                item.addEventListener('click', () => openPhotoViewer(photoUrl));
             } else {
                 item.innerHTML = `<div style="width:100%;height:100%;background:var(--border);display:flex;align-items:center;justify-content:center;">
                     <i data-lucide="image" width="20" height="20" style="color:var(--text-muted);"></i>
@@ -208,4 +210,22 @@ async function savePhoto() {
     } else {
         Toast.show(data.message || 'Error al subir la foto', 'error');
     }
+}
+
+function openPhotoViewer(url) {
+    const viewer = document.createElement('div');
+    viewer.style.cssText = `
+        position:fixed;inset:0;background:rgba(0,0,0,0.95);
+        z-index:999;display:flex;align-items:center;justify-content:center;
+        cursor:pointer;
+    `;
+    viewer.innerHTML = `
+        <img src="${url}" style="max-width:100%;max-height:100vh;object-fit:contain;border-radius:8px;">
+        <button style="position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.15);border:none;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;">
+            <i data-lucide="x" width="20" height="20"></i>
+        </button>
+    `;
+    viewer.addEventListener('click', () => viewer.remove());
+    document.body.appendChild(viewer);
+    if (typeof lucide !== 'undefined') lucide.createIcons({ nodes: [viewer] });
 }
